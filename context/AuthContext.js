@@ -40,7 +40,7 @@ export const AuthProvider = ({children}) => {
   //     const token = await getToken();
   //     console.log('fcmtoeknnnnnn', token);
   //     const URL = 'https://server-sih-1.onrender.com/updateFCMToken';
-  //     // const URL = 'http://192.168.123.24:5000/updateFCMToken';
+  //     // const URL = 'http://192.168.137.8:5000/updateFCMToken';
   //     let result = await fetch(URL, {
   //       method: 'POST',
   //       headers: {

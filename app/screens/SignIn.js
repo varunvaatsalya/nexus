@@ -23,11 +23,11 @@ const SignIn = ({navigation}) => {
         isLocationPermissionGranted,
         isBackgroundLocationPermissionGranted,
         isNotificationPermissionGranted,
-        firebaseToken:fcmToken,
+        firebaseToken: fcmToken,
       };
       console.log(data);
-      const URL = 'https://server-sih-1.onrender.com/login';
-      // const URL = 'http://192.168.123.24:5000/login';
+      // const URL = 'https://server-sih-1.onrender.com/login';
+      const URL = 'http://192.168.137.8:5000/login';
       const response = await fetch(URL, {
         method: 'POST',
         headers: {
@@ -57,19 +57,16 @@ const SignIn = ({navigation}) => {
   }
 
   return (
-    <View className="flex-1 bg-amber-400 p-2 justify-center items-center">
+    <View className="flex-1 bg-violet-100 p-2 justify-center items-center">
       <View className="bg-white rounded-2xl p-4 flex flex-col justify-center items-center w-full">
-        <Text className="text-xl font-extrabold text-gray-800">Sign In</Text>
-        <Text className="text-xl font-bold text-gray-800">
-          {user ? user.id : 'no'}
-        </Text>
+        <Text className="text-4xl my-3 font-extrabold text-gray-800">Signin</Text>
         <TextInput
           placeholder="Mobile Contact"
           value={contact}
           onChangeText={text => {
             setContact(text);
           }}
-          className="w-full bg-gray-200 p-4 my-2 text-xl font-semibold rounded-xl border border-gray-800"
+          className="w-full bg-gray-200 text-black p-4 my-2 text-xl font-semibold rounded-xl"
         />
         <TextInput
           placeholder="Password"
@@ -77,18 +74,18 @@ const SignIn = ({navigation}) => {
           onChangeText={text => {
             setPassword(text);
           }}
-          className="w-full bg-gray-200 p-4 my-2 text-xl font-semibold rounded-xl border border-gray-800"
+          className="w-full bg-gray-200 text-black p-4 my-2 text-xl font-semibold rounded-xl"
         />
         <Pressable
           className="w-full h-16 rounded-xl my-4 bg-violet-400 active:bg-violet-700 flex justify-center items-center"
           onPress={handleSubmit}>
-          <Text className="font-semibold text-3xl text-white">Login</Text>
+          <Text className="font-semibold text-3xl text-white">Signin</Text>
         </Pressable>
-        <Pressable
-          className="w-full h-16 rounded-xl my-1 bg-violet-400 active:bg-violet-700 flex justify-center items-center"
+        <Text
+          className="my-1 text-violet-400 font-medium text-2xl"
           onPress={() => navigation.navigate('SignUp')}>
-          <Text className="font-semibold text-3xl text-white">SignUp</Text>
-        </Pressable>
+          Create a Account
+        </Text>
       </View>
     </View>
   );

@@ -6,8 +6,8 @@ const HomeScreen = () => {
   useEffect(()=>{
     async function fetchData() {
       try {
-        const URL = 'https://server-sih-1.onrender.com/listReport';
-      // const URL = 'http://192.168.123.24:5000/listReport';
+        // const URL = 'https://server-sih-1.onrender.com/listReport';
+      const URL = 'http://192.168.137.8:5000/listReport';
         let result = await fetch(URL);
         result = await result.json();
         if (result.success) {

@@ -36,7 +36,7 @@ const SOS = ({navigation}) => {
             Report
           </Text>
         </Pressable>
-        {user.role && (
+        {user &&user?.role && (
           <Pressable
             className="bg-gray-50 w-full p-4 rounded-2xl mt-3"
             onPress={() => {

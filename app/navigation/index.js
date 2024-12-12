@@ -18,12 +18,14 @@ const AppNavigation = () => {
   const URL = ''
   const {user} = useContext(AuthContext);
   useEffect(() => {
-    if (user && user.role) {
+    if (user && user?.role) {
       console.log('inside the if');
       const sendCoordinates = async (CoordinateData) => {
         console.log('inside the send cordinate func', CoordinateData);
+
         const coResponse = await fetch(
-          'https://server-sih-1.onrender.com/locationUpdate',
+          // 'https://server-sih-1.onrender.com/locationUpdate',
+          'http://192.168.137.8:5000/locationUpdate',
           {
             method: 'POST',
             headers: {

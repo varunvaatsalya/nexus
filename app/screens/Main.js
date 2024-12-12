@@ -7,6 +7,7 @@ import SOS from './SOS';
 import More from './More';
 import Dates from './Dates';
 import Home from './Home';
+// import Profile from './Profile';
 
 const Tab = createBottomTabNavigator();
 
@@ -15,8 +16,8 @@ const Main = () => {
     try {
       const token = await getToken();
       console.log('fcmtoeknnnnnn', token);
-      const URL = 'https://server-sih-1.onrender.com/updateFCMToken';
-      // const URL = 'http://192.168.123.24:5000/updateFCMToken';
+      // const URL = 'https://server-sih-1.onrender.com/updateFCMToken';
+      const URL = 'http://192.168.137.8:5000/updateFCMToken';
       let result = await fetch(URL, {
         method: 'POST',
         headers: {
@@ -31,6 +32,7 @@ const Main = () => {
   }
   return (
     <Tab.Navigator
+    initialRouteName='SOS'
       screenOptions={{
         tabBarStyle: {
           height: 75,
@@ -46,7 +48,7 @@ const Main = () => {
         
       }}>
       <Tab.Screen name="Home" component={Home} />
-      <Tab.Screen name="Profile" component={SignUp} />
+      <Tab.Screen name="SignUp" component={SignUp} />
       <Tab.Screen
         name="SOS"
         component={SOS}
@@ -61,7 +63,7 @@ const Main = () => {
           ),
         }}
       />
-      <Tab.Screen name="Maha Kumbh Mela" component={Dates} />
+      <Tab.Screen name="Notification" component={Dates} />
       <Tab.Screen name="More" component={More} />
     </Tab.Navigator>
   );

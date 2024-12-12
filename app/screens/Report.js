@@ -1,4 +1,4 @@
-import React, {useContext, useState} from 'react';
+import React, {useContext, useEffect, useState} from 'react';
 import {
   View,
   Text,
@@ -15,6 +15,7 @@ import {AuthContext} from '../../context/AuthContext';
 const Report = () => {
   const [modalVisible, setModalVisible] = useState(false);
   const [photo, setPhoto] = useState(null);
+  const [reports, setReports] = useState([]);
   const [name, setName] = useState('');
   const {user} = useContext(AuthContext);
 
@@ -30,6 +31,18 @@ const Report = () => {
       }
     });
   };
+
+  useEffect(() => {
+    async function fetchData() {
+      const URL = `http://192.168.137.8:5000/userReportList?id=${user.id}`;
+      let response = await fetch(URL);
+      response = await response.json();
+      if (response.reports) {
+        setReports(response.reports);
+      }
+    }
+    fetchData();
+  }, []);
 
   const handleSubmit = async () => {
     if (!photo) {
@@ -51,8 +64,8 @@ const Report = () => {
     formData.append('reportedBy', user.id);
 
     try {
-      const URL = 'https://server-sih-1.onrender.com/report';
-      // const URL = 'http://192.168.123.24:5000/report';
+      // const URL = 'https://server-sih-1.onrender.com/report';
+      const URL = 'http://192.168.137.8:5000/report';
       const response = await fetch(URL, {
         method: 'POST',
         headers: {
@@ -63,8 +76,9 @@ const Report = () => {
 
       const result = await response.json();
       if (result.success) {
-        Alert.alert('Success', 'Image uploaded successfully!');
+        Alert.alert('Success', 'Report Register successfully!');
         console.log('Server Response:', result);
+        setModalVisible(false);
       } else {
         Alert.alert('Error', 'Failed to upload image.');
         console.log('Error Response:', result);
@@ -75,7 +89,7 @@ const Report = () => {
     }
   };
   return (
-    <View className="flex-1 bg-amber-400 p-2 justify-center items-center">
+    <View className="flex-1 bg-amber-400 p-2 justify-start items-center">
       <Modal
         animationType="slide"
         transparent={true}
@@ -104,7 +118,7 @@ const Report = () => {
             onChangeText={text => {
               setName(text);
             }}
-            className="w-full bg-gray-100 p-4 my-2 text-xl font-semibold rounded-xl border border-gray-800"
+            className="w-full bg-gray-100 text-black p-4 my-2 text-xl font-semibold rounded-xl border border-gray-800"
           />
           {photo && (
             <Image
@@ -113,21 +127,23 @@ const Report = () => {
             />
           )}
           {photo ? (
-            <View className='flex flex-row justify-center w-full gap-3 items-center'>
+            <View className="flex flex-row justify-center w-full gap-3 items-center">
               <Pressable
-              className="px-3 h-16 rounded-xl my-2 bg-violet-400 active:bg-violet-700 flex justify-center items-center"
-              onPress={handleImageUpload}>
-              <Text className="font-semibold text-2xl text-white">
-              Change Photo
-              </Text>
-            </Pressable>
-            <Pressable
-              className="px-3 h-16 rounded-xl my-2 bg-red-400 active:bg-red-700 flex justify-center items-center"
-              onPress={()=>{setPhoto(null)}}>
-              <Text className="font-semibold text-2xl text-white">
-                Delete Photo
-              </Text>
-            </Pressable>
+                className="px-3 h-16 rounded-xl my-2 bg-violet-400 active:bg-violet-700 flex justify-center items-center"
+                onPress={handleImageUpload}>
+                <Text className="font-semibold text-2xl text-white">
+                  Change Photo
+                </Text>
+              </Pressable>
+              <Pressable
+                className="px-3 h-16 rounded-xl my-2 bg-red-400 active:bg-red-700 flex justify-center items-center"
+                onPress={() => {
+                  setPhoto(null);
+                }}>
+                <Text className="font-semibold text-2xl text-white">
+                  Delete Photo
+                </Text>
+              </Pressable>
             </View>
           ) : (
             <Pressable
@@ -141,19 +157,32 @@ const Report = () => {
           <Pressable
             className="w-full h-16 rounded-xl my-2 bg-violet-400 active:bg-violet-700 flex justify-center items-center"
             onPress={handleSubmit}>
-            <Text className="font-semibold text-3xl text-white">
-              Submit
-            </Text>
+            <Text className="font-semibold text-3xl text-white">Submit</Text>
           </Pressable>
         </View>
       </Modal>
-      <Button
-        onPress={() => {
-          setModalVisible(!modalVisible);
-        }}
-        className="bg-red-500"
-        title="open"
-      />
+      <View>
+        {reports.map((report, index) => (
+          <View key={index} className='w-full p-2 flex flex-row gap-4 items-center'>
+            <Image
+              source={{uri: report.url}}
+              className="w-1/2 aspect-square rounded-lg"
+            />
+            <View>
+            <Text className='text-xl font-semibold'>{report.name}</Text>
+            <Text className='text-lg'>Searching...</Text></View>
+          </View>
+        ))}
+      </View>
+      {reports.length < 2 && (
+        <Button
+          onPress={() => {
+            setModalVisible(true);
+          }}
+          className="bg-red-500"
+          title="Register Report"
+        />
+      )}
     </View>
   );
 };
